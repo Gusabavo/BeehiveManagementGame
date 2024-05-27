@@ -14,12 +14,12 @@ namespace BeeheveManagementSystem
 
         private float eggs = 0;
         private float unassignedWorkers = 3;
-        private Bee[] workers = new Bee[0];
+        private IWorker[] workers = new IWorker[0];
 
         public string StatusReport { get; private set; }
         public override float CostPerShift { get { return 2.15f; } }
 
-        private void AddWorker(Bee worker)
+        private void AddWorker(IWorker worker)
         {
             if (unassignedWorkers >= 1)
             {
@@ -32,7 +32,7 @@ namespace BeeheveManagementSystem
         private string WorkerStatus(string job)
         {
             int count = 0;
-            foreach (Bee worker in workers)
+            foreach (IWorker worker in workers)
             {
                 if (worker.Job == job) count++;
             }
