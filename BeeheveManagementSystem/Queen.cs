@@ -4,10 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel;
 namespace BeeheveManagementSystem
 {
-    class Queen : Bee
+    class Queen : Bee, INotifyPropertyChanged
     {
         private const float EGGS_PER_SHIFT = 0.45f;
         private const float HONEY_PER_UNASSIGNED_WORKER = 0.5f;
@@ -15,6 +15,14 @@ namespace BeeheveManagementSystem
         private float eggs = 0;
         private float unassignedWorkers = 3;
         private IWorker[] workers = new IWorker[0];
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        }
 
         public string StatusReport { get; private set; }
         public override float CostPerShift { get { return 2.15f; } }
@@ -51,6 +59,7 @@ namespace BeeheveManagementSystem
                 $"\n {WorkerStatus("Honey Manufacturer")}" +
                 $"\n {WorkerStatus("Egg Care")}" +
                 $"\n TOTAL WORKERS: {workers.Length}";
+            OnPropertyChanged("StatusReport");
 
         }
 
